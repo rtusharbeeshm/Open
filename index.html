@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A Special Message</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #fff0f3;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+        .hidden { display: none !important; }
+        h1 { color: #ff4d6d; font-size: 2.5rem; margin-bottom: 20px; z-index: 10; padding: 0 15px; }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            height: 150px;
+            position: relative;
+        }
+
+        button {
+            padding: 15px 35px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.1s ease;
+        }
+
+        #yesBtn { background-color: #ff4d6d; color: white; z-index: 100; }
+        #noBtn { background-color: #8a8a8a; color: white; position: relative; z-index: 50; }
+
+        #stage2 { width: 100%; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .cat-container { width: 95%; max-width: 700px; margin-bottom: 20px; }
+        .cat-img { 
+            width: 100%; 
+            height: auto;
+            max-height: 65vh; 
+            object-fit: contain;
+            border-radius: 25px; 
+            border: 12px solid white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        #takeItBtn { 
+            background-color: #ffb703; 
+            color: black; 
+            font-size: 1.5rem;
+            animation: pulse 1.5s infinite; 
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        #stage3 { 
+            width: 100%; 
+            height: 100vh; 
+            background: black; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+        .video-container { width: 100%; height: 100%; }
+        video { width: 100%; height: 100%; object-fit: cover; }
+    </style>
+</head>
+<body>
+
+    <div id="stage1">
+        <h1>Will you be my Valentine? ❤️</h1>
+        <div class="btn-container">
+            <button id="yesBtn" onclick="nextStage(2)">YES</button>
+            <button id="noBtn" onmouseover="runAway()" onclick="runAway()">No</button>
+        </div>
+    </div>
+
+    <div id="stage2" class="hidden">
+        <h1>YAYYY! 🥰</h1>
+        <div class="cat-container">
+            <img src="57a10bce18c47e64fcb4e6fca5fb752e.jpg" alt="Orange cat with flowers" class="cat-img">
+        </div>
+        <button id="takeItBtn" onclick="nextStage(3)">Please take it! 🌻</button>
+    </div>
+
+    <div id="stage3" class="hidden">
+        <div class="video-container">
+            <video id="finalVideo" playsinline>
+                <source src="Kaatru Veliyidai - Azhagiye Video A. R. Rahman Karthi New Hit Song 2017 - SonyMusicSouthVEVO (1080p, h264) (online-video-cutter.com)_2.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <script>
+        let yesSize = 1;
+        let noSize = 1;
+
+        function runAway() {
+            const no = document.getElementById('noBtn');
+            const yes = document.getElementById('yesBtn');
+            no.style.position = 'fixed';
+            const maxX = window.innerWidth - no.offsetWidth - 20;
+            const maxY = window.innerHeight - no.offsetHeight - 20;
+            no.style.left = Math.random() * maxX + 'px';
+            no.style.top = Math.random() * maxY + 'px';
+            noSize -= 0.12;
+            yesSize += 0.5;
+            if (noSize < 0.2) noSize = 0.2;
+            no.style.transform = `scale(${noSize})`;
+            yes.style.transform = `scale(${yesSize})`;
+        }
+
+        function nextStage(n) {
+            document.getElementById('stage1').classList.add('hidden');
+            document.getElementById('stage2').classList.add('hidden');
+            document.getElementById('stage' + n).classList.remove('hidden');
+
+            if (n === 3) {
+                const vid = document.getElementById('finalVideo');
+                vid.play(); 
+                vid.onended = function() {
+                    window.close();
+                    setTimeout(() => { alert("The end! ❤️"); }, 500);
+                };
+            }
+        }
+    </script>
+</body>
+</html>
